@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import "./ChatDisplay.css";
 
 function ChatDisplay({ messages }) {
   const messagesEndRef = useRef(null);
@@ -8,9 +9,16 @@ function ChatDisplay({ messages }) {
   }, [messages]);
 
   return (
-    <div style={{ overflowY: "scroll", maxHeight: "200px" }}>
+    <div className="chatDisplayContainer">
       {messages.map((message, index) => (
-        <p key={index}>{message}</p>
+        <p
+          key={index}
+          className={`chatMessage ${
+            message.includes("Usuário") ? "userMessage" : "iaMessage"
+          }`}
+        >
+          {message}
+        </p>
       ))}
       <div ref={messagesEndRef} />
     </div>

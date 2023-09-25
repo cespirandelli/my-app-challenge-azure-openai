@@ -1,11 +1,15 @@
+import "./App.css";
 import React, { useState, useEffect } from "react";
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 import { ClipLoader } from "react-spinners";
 import SpeechRecognizer from "./components/SpeechRecognizer";
 import SpeechSynthesizer from "./components/SpeechSynthesizer";
 import ChatDisplay from "./components/ChatDisplay";
+import ErrorDisplay from "./components/ErrorDisplay";
+import { useError } from "./context/ErrorContext";
 
 function App() {
+  const { setError } = useError();
   const [response, setResponse] = useState("");
   const [messages, setMessages] = useState([]);
   const [recognizedText, setRecognizedText] = useState("");
@@ -43,6 +47,7 @@ function App() {
         }
       } catch (error) {
         console.error("Error connecting to Azure OpenAI:", error);
+        setError(error.message || "An unexpected error occurred");
       } finally {
         setLoading(false); // Define loading como false quando a chamada de API termina
       }
@@ -50,7 +55,7 @@ function App() {
 
     // Call the getOpenAIResponse function if recognizedText is not empty
     if (recognizedText && recognizedText.trim() !== "") getOpenAIResponse();
-  }, [recognizedText]);
+  }, [recognizedText, setError]);
 
   // Handle recognition and update states accordingly
   const handleRecognition = (userMessage) => {
@@ -60,8 +65,9 @@ function App() {
 
   return (
     <div className="App">
+      <ErrorDisplay />
       <SpeechRecognizer onRecognition={handleRecognition} />
-      <ChatDisplay messages={messages} />
+      <ChatDisplay messages={messages} className="ChatDisplay" />
       {loading ? (
         <ClipLoader color="#000000" />
       ) : (

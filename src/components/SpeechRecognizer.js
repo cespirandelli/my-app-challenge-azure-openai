@@ -1,5 +1,6 @@
 import React from "react";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
+import "./SpeechRecognizer.css";
 
 function SpeechRecognizer({ onRecognition }) {
   const startRecognition = () => {
@@ -40,20 +41,12 @@ function SpeechRecognizer({ onRecognition }) {
   };
 
   return (
-    <button onClick={startRecognition} style={buttonStyle}>
-      Iniciar Reconhecimento
-    </button>
+    <div className="speechRecognizerContainer">
+      <button onClick={startRecognition} className="speechRecognizerButton">
+        Iniciar Fala
+      </button>
+    </div>
   );
 }
-
-const buttonStyle = {
-  padding: "10px 20px",
-  fontSize: "16px",
-  cursor: "pointer",
-  background: "#007bff",
-  color: "#fff",
-  border: "none",
-  borderRadius: "4px",
-};
 
 export default SpeechRecognizer;
