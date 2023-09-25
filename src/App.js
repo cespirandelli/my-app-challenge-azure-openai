@@ -42,16 +42,47 @@ function App() {
           [recognizedText]
         );
 
-        for (const choice of choices) {
-          setResponse(choice.text);
+        if (choices.length > 0) {
+          setResponse(choices[0].text);
         }
       } catch (error) {
-        console.error("Erro ao conectar à Azure OpenAI:", error);
+        console.error("Error connecting to Azure OpenAI:", error);
       }
     };
 
     if (recognizedText) getOpenAIResponse();
   }, [recognizedText]);
+
+  useEffect(() => {
+    if (response) {
+      // Configuração da Speech SDK para sintetizar o texto
+      const speechConfig = sdk.SpeechConfig.fromSubscription(
+        "fa58155756e94a60bdc515e3669b4416",
+        "eastus"
+      );
+      const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
+
+      speechConfig.speechSynthesisVoiceName = "pt-BR-AntonioNeural "; // Exemplo de voz em Português do Brasil
+
+      const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
+
+      synthesizer.speakTextAsync(
+        response,
+        function (result) {
+          if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
+            console.log("Síntese concluída.");
+          } else {
+            console.error("Síntese de fala cancelada: " + result.errorDetails);
+          }
+          synthesizer.close();
+        },
+        function (err) {
+          console.trace("Erro ocorrido: " + err);
+          synthesizer.close();
+        }
+      );
+    }
+  }, [response]);
 
   return (
     <div className="App">
