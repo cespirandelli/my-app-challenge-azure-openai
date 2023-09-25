@@ -1,9 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
-function SpeechSynthesizer({ response }) {
+function SpeechSynthesizer({ response, onError, LoadingComponent }) {
+  const speakText = useCallback(
+    (response, synthesizer) => {
+      synthesizer.speakTextAsync(
+        response,
+        (result) => {
+          if (result.reason !== sdk.ResultReason.SynthesizingAudioCompleted) {
+            console.error("Síntese de fala cancelada: " + result.errorDetails);
+            if (onError) onError(result.errorDetails);
+          }
+          synthesizer.close();
+        },
+        (error) => {
+          console.trace("Erro ocorrido: " + error);
+          if (onError) onError(error);
+          synthesizer.close();
+        }
+      );
+    },
+    [onError]
+  );
+
   useEffect(() => {
-    if (response) {
+    if (response.trim()) {
       const speechConfig = sdk.SpeechConfig.fromSubscription(
         "fa58155756e94a60bdc515e3669b4416",
         "eastus"
@@ -13,25 +34,11 @@ function SpeechSynthesizer({ response }) {
       const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
       const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
 
-      synthesizer.speakTextAsync(
-        response,
-        function (result) {
-          if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-            console.log("Síntese concluída.");
-          } else {
-            console.error("Síntese de fala cancelada: " + result.errorDetails);
-          }
-          synthesizer.close();
-        },
-        function (error) {
-          console.trace("Erro ocorrido: " + error);
-          synthesizer.close();
-        }
-      );
+      speakText(response, synthesizer);
     }
-  }, [response]);
+  }, [response, speakText]);
 
-  return null;
+  return LoadingComponent ? <LoadingComponent /> : null;
 }
 
 export default SpeechSynthesizer;
