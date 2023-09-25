@@ -1,6 +1,7 @@
 import React from "react";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import "./SpeechRecognizer.css";
+import PropTypes from "prop-types";
 
 function SpeechRecognizer({ onRecognition }) {
   const startRecognition = () => {
@@ -48,5 +49,9 @@ function SpeechRecognizer({ onRecognition }) {
     </div>
   );
 }
+
+SpeechRecognizer.propTypes = {
+  onRecognition: PropTypes.func.isRequired,
+};
 
 export default SpeechRecognizer;

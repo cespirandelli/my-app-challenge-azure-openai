@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./ChatDisplay.css";
+import PropTypes from "prop-types";
 
 function ChatDisplay({ messages }) {
   const messagesEndRef = useRef(null);
@@ -11,18 +12,29 @@ function ChatDisplay({ messages }) {
   return (
     <div className="chatDisplayContainer">
       {messages.map((message, index) => (
-        <p
+        <div
           key={index}
           className={`chatMessage ${
-            message.includes("Usuário") ? "userMessage" : "iaMessage"
+            message.type === "user" ? "userMessage" : "iaMessage"
           }`}
         >
-          {message}
-        </p>
+          <span className="timestamp">{message.timestamp}</span>
+          <p>{message.text}</p>
+        </div>
       ))}
       <div ref={messagesEndRef} />
     </div>
   );
 }
+
+ChatDisplay.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 
 export default ChatDisplay;

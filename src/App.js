@@ -21,9 +21,15 @@ function App() {
     getApiResponse(recognizedText)
       .then((res) => {
         if (res && res.text) {
-          // ensure res.text is available
           setResponse(res);
-          setMessages((prevMessages) => [...prevMessages, `IA: ${res.text}`]);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              text: `IA: ${res.text}`,
+              timestamp: new Date().toLocaleTimeString(),
+              type: "ia",
+            },
+          ]);
         } else {
           console.error("Invalid response or response.text is missing:", res);
           setError("Received invalid response from the server.");
@@ -37,8 +43,12 @@ function App() {
   }, [recognizedText, setError]);
 
   const handleRecognition = (userMessage) => {
+    const timestamp = new Date().toLocaleTimeString();
     setRecognizedText(userMessage);
-    setMessages((prevMessages) => [...prevMessages, `User: ${userMessage}`]);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: `User: ${userMessage}`, timestamp, type: "user" },
+    ]);
   };
 
   return (

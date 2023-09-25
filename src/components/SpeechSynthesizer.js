@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
+import PropTypes from "prop-types";
 
 function SpeechSynthesizer({ response, onError, LoadingComponent }) {
   const speakText = useCallback(
@@ -46,5 +47,10 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
 
   return LoadingComponent ? <LoadingComponent /> : null;
 }
+
+SpeechSynthesizer.propTypes = {
+  onError: PropTypes.func,
+  LoadingComponent: PropTypes.element,
+};
 
 export default SpeechSynthesizer;
