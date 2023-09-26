@@ -5,6 +5,7 @@ import SpeechSynthesizer from "./components/SpeechSynthesizer";
 import ChatDisplay from "./components/ChatDisplay";
 import ErrorDisplay from "./components/ErrorDisplay";
 import Title from "./components/Title";
+import ToggleContrast from "./components/ToggleContrast";
 import { useError } from "./context/ErrorContext";
 import { getApiResponse } from "./services/apiService";
 
@@ -64,6 +65,7 @@ function App() {
     <div className="App" role="main" aria-live="polite">
       <ErrorDisplay />
       <Title />
+      <ToggleContrast />
       <SpeechRecognizer onRecognition={handleRecognition} />
       <ChatDisplay
         messages={messages}
