@@ -61,15 +61,22 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" role="main" aria-live="polite">
       <ErrorDisplay />
       <Title />
       <SpeechRecognizer onRecognition={handleRecognition} />
-      <ChatDisplay messages={messages} className="ChatDisplay" />
+      <ChatDisplay
+        messages={messages}
+        className="ChatDisplay"
+        aria-label="Exibição de Chat"
+      />
       {loading ? (
-        <ClipLoader color="#000000" />
+        <ClipLoader color="#000000" aria-label="Carregando" />
       ) : (
-        <SpeechSynthesizer response={response} />
+        <SpeechSynthesizer
+          response={response}
+          aria-label="Sintetizador de Fala"
+        />
       )}
     </div>
   );

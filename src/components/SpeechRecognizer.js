@@ -6,9 +6,12 @@ import { ClipLoader } from "react-spinners";
 
 function SpeechRecognizer({ onRecognition }) {
   const [loading, setLoading] = useState(false);
+  const [buttonPressed, setButtonPressed] = useState(false);
 
   const startRecognition = () => {
     setLoading(true);
+    setButtonPressed(true); // setting buttonPressed to true when recognition starts
+
     const speechConfig = sdk.SpeechConfig.fromSubscription(
       "63e2e8cdd3774328b2d020432cd2d8a8",
       "eastus"
@@ -35,11 +38,13 @@ function SpeechRecognizer({ onRecognition }) {
         const userMessage = `${result.text}`;
         onRecognition(userMessage); // Informing the parent component about the recognized text.
         setLoading(false);
+        setButtonPressed(false);
         recognizer.close();
       },
       (error) => {
         console.error(error);
         setLoading(false);
+        setButtonPressed(false);
         recognizer.close();
         // Informing the user that an error occurred during speech recognition.
         alert(
@@ -51,10 +56,18 @@ function SpeechRecognizer({ onRecognition }) {
 
   return (
     <div className="speechRecognizerContainer">
-      <button onClick={startRecognition} className="speechRecognizerButton">
+      <button
+        onClick={startRecognition}
+        className="speechRecognizerButton"
+        aria-pressed={buttonPressed}
+        tabIndex={0}
+      >
         Iniciar Assistente de Compras
       </button>
       {loading && <ClipLoader color="#000000" />}
+      <div aria-live="assertive" className="visually-hidden">
+        {loading && <p>Reconhecimento de fala está em progresso...</p>}
+      </div>
     </div>
   );
 }
