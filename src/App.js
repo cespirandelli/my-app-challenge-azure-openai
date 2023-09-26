@@ -54,6 +54,9 @@ function App() {
   return (
     <div className="App">
       <ErrorDisplay />
+      <div className="titleContainer">
+        <h1 className="appTitle">Your Chat Application</h1>
+      </div>
       <SpeechRecognizer onRecognition={handleRecognition} />
       <ChatDisplay messages={messages} className="ChatDisplay" />
       {loading ? (

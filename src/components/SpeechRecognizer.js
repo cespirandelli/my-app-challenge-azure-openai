@@ -44,7 +44,7 @@ function SpeechRecognizer({ onRecognition }) {
   return (
     <div className="speechRecognizerContainer">
       <button onClick={startRecognition} className="speechRecognizerButton">
-        Iniciar Fala
+        Iniciar Assistente de Compras
       </button>
     </div>
   );
