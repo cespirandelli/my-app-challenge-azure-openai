@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ClipLoader } from "react-spinners";
 import SpeechRecognizer from "./components/SpeechRecognizer";
 import SpeechSynthesizer from "./components/SpeechSynthesizer";
@@ -15,45 +15,54 @@ function App() {
   const [recognizedText, setRecognizedText] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const handleApiResponse = useCallback(
+    (response) => {
+      if (response && response.text) {
+        setResponse(response);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: `${response.text}`,
+            timestamp: new Date().toLocaleTimeString(),
+            type: "ia",
+          },
+        ]);
+      } else {
+        console.error(
+          "Invalid response or response.text is missing:",
+          response
+        );
+        setError("Received invalid response from the server.");
+      }
+    },
+    [setError]
+  );
+
   useEffect(() => {
     if (recognizedText.trim() === "") return;
     setLoading(true);
 
     getApiResponse(recognizedText)
-      .then((res) => {
-        if (res && res.text) {
-          setResponse(res);
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              text: `IA: ${res.text}`,
-              timestamp: new Date().toLocaleTimeString(),
-              type: "ia",
-            },
-          ]);
-        } else {
-          console.error("Invalid response or response.text is missing:", res);
-          setError("Received invalid response from the server.");
-        }
-      })
+      .then(handleApiResponse)
       .catch((error) => {
         console.error(error);
         setError(error.message || "An unexpected error occurred");
       })
       .finally(() => setLoading(false));
-  }, [recognizedText, setError]);
+  }, [recognizedText, handleApiResponse, setError]);
 
   const handleRecognition = (userMessage) => {
     const timestamp = new Date().toLocaleTimeString();
     setRecognizedText(userMessage);
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: `User: ${userMessage}`, timestamp, type: "user" },
+      { text: `${userMessage}`, timestamp, type: "user" },
     ]);
   };
 
   return (
     <div className="App">
+      <ErrorDisplay />
       <Title />
       <SpeechRecognizer onRecognition={handleRecognition} />
       <ChatDisplay messages={messages} className="ChatDisplay" />

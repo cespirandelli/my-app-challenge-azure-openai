@@ -11,15 +11,20 @@ function ChatDisplay({ messages }) {
 
   return (
     <div className="chatDisplayContainer">
-      {messages.map((message, index) => (
+      {messages.map((message) => (
         <div
-          key={index}
+          key={`${message.timestamp}-${message.type}`} // Ensuring unique key
           className={`chatMessage ${
             message.type === "user" ? "userMessage" : "iaMessage"
           }`}
         >
           <span className="timestamp">{message.timestamp}</span>
-          <p>{message.text}</p>
+          <p>
+            {message.type === "user"
+              ? `User: ${message.text}`
+              : `IA: ${message.text}`}
+          </p>{" "}
+          {/* Modified display */}
         </div>
       ))}
       <div ref={messagesEndRef} />

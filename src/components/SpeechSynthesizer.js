@@ -31,6 +31,7 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
   );
 
   useEffect(() => {
+    console.log("Response Prop Value:", response); // Add this line
     if (response) {
       const speechConfig = sdk.SpeechConfig.fromSubscription(
         "fa58155756e94a60bdc515e3669b4416",
