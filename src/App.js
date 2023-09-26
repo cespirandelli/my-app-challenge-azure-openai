@@ -4,6 +4,7 @@ import SpeechRecognizer from "./components/SpeechRecognizer";
 import SpeechSynthesizer from "./components/SpeechSynthesizer";
 import ChatDisplay from "./components/ChatDisplay";
 import ErrorDisplay from "./components/ErrorDisplay";
+import Title from "./components/Title";
 import { useError } from "./context/ErrorContext";
 import { getApiResponse } from "./services/apiService";
 
@@ -53,10 +54,7 @@ function App() {
 
   return (
     <div className="App">
-      <ErrorDisplay />
-      <div className="titleContainer">
-        <h1 className="appTitle">Your Chat Application</h1>
-      </div>
+      <Title />
       <SpeechRecognizer onRecognition={handleRecognition} />
       <ChatDisplay messages={messages} className="ChatDisplay" />
       {loading ? (
