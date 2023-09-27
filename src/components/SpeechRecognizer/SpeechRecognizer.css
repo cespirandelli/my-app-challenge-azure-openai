@@ -1,8 +1,15 @@
+.high-contrast .speechRecognizerButton {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #ffffff;
+}
+
 .speechRecognizerContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .speechRecognizerButton {
@@ -15,6 +22,9 @@
   font-size: 1rem; /* Adjust font-size according to your design preference */
   outline: none;
   transition: background-color 0.3s ease;
+
+  width: 4rem;
+  height: 4rem;
 }
 
 .speechRecognizerButton:hover {
@@ -26,8 +36,8 @@
 }
 
 .speechRecognizerButton:focus {
-  outline: 2px solid #00574B; /* Adjust color according to your design preference */
-  box-shadow: 0 0 10px #00574B; /* Adjust color according to your design preference */
+  outline: 2px solid #00574b; /* Adjust color according to your design preference */
+  box-shadow: 0 0 10px #00574b; /* Adjust color according to your design preference */
 }
 
 .visually-hidden {

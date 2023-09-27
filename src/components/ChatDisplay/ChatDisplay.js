@@ -14,16 +14,16 @@ function ChatDisplay({ messages }) {
       className="chatDisplayContainer"
       role="region"
       aria-live="polite"
-      aria-label="Chat Messages"
+      aria-label="Mensagens do chat"
     >
-      {messages.map((message) => (
+      {messages.map((message, idx) => (
         <div
-          key={`${message.timestamp}-${message.type}`}
+          key={`${message.timestamp}-${message.type}-${idx}`}
           className={`chatMessage ${
             message.type === "user" ? "userMessage" : "iaMessage"
           }`}
-          tabIndex="0" // Makes the message focusable by keyboard
-          role="article" // Represents the message as an independent piece of content
+          tabIndex="0"
+          role="article"
           aria-label={`${message.type === "user" ? "User" : "IA"}: ${
             message.text
           }`}

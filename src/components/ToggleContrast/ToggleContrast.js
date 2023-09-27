@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./ToggleContrast.css";
 
 function ToggleContrast() {
   const [isHighContrast, setIsHighContrast] = useState(false);
@@ -8,9 +9,11 @@ function ToggleContrast() {
   }, [isHighContrast]);
 
   return (
-    <button onClick={() => setIsHighContrast(!isHighContrast)}>
-      Toggle High Contrast
-    </button>
+    <div className="toggle-container">
+      <button onClick={() => setIsHighContrast(!isHighContrast)}>
+        Toggle High Contrast
+      </button>
+    </div>
   );
 }
 

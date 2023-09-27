@@ -1,0 +1,52 @@
+.toggle-container {
+  position: fixed; /* Fixa a posição do contêiner */
+  bottom: 0; /* Posiciona no fundo da tela */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Ajusta a centralização */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente (ajuste conforme necessário) */
+}
+
+
+/* Default styling */
+body {
+    background-color: #ffffff;
+    /* color: rgb(255, 255, 0); */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  button {
+    background-color: #000000; /* Green */
+    border: none;
+    color: rgb(255, 255, 0);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    padding: 15px 25px; /* Antes: padding: 10px 20px; */
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* High contrast styling */
+  body.high-contrast {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  body.high-contrast button {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff;
+  }
+  

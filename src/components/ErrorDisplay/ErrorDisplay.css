@@ -1,0 +1,43 @@
+/* Overlay para escurecer o fundo quando o modal estiver ativo */
+.error-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+  }
+  
+  /* Modal de Erro */
+  .error-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    padding: 20px;
+    background-color: #ffffff; /* Alto contraste com o texto e borda */
+    color: #000000; /* Alto contraste com o fundo */
+    border: 2px solid #ff0000; /* Vermelho para indicar erro */
+    box-shadow: 0px 0px 10px 0px #000; /* Sombra para destacar o modal */
+    width: 300px;
+    text-align: center;
+    font-size: 18px; /* Tamanho grande para visibilidade */
+  }
+  
+  /* Botão de Fechar no Modal de Erro */
+  .error-modal button {
+    background-color: #ff0000; /* Vermelho para indicar ação de fechar/erro */
+    color: #ffffff; /* Branco para alto contraste com o fundo vermelho */
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px; /* Espaçamento entre o texto do erro e o botão */
+    font-size: 16px; /* Tamanho para visibilidade */
+  }
+  
+  .error-modal button:hover {
+    background-color: #cc0000; /* Vermelho mais escuro no hover */
+  }
+  

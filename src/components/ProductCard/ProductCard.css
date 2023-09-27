@@ -1,0 +1,21 @@
+.product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card h3 {
+    margin: 0 0 10px 0;
+  }
+  
+  .product-card a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .product-card a:hover {
+    text-decoration: underline;
+  }
+  

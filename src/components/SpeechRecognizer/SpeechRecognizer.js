@@ -1,7 +1,9 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import "./SpeechRecognizer.css";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import { ClipLoader } from "react-spinners";
 
 function SpeechRecognizer({ onRecognition }) {
@@ -56,18 +58,18 @@ function SpeechRecognizer({ onRecognition }) {
 
   return (
     <div className="speechRecognizerContainer">
+      {loading && <ClipLoader color="#000000" />}
+      <div aria-live="assertive" className="visually-hidden">
+        {loading && <p>Reconhecimento de fala está em progresso...</p>}
+      </div>
       <button
         onClick={startRecognition}
         className="speechRecognizerButton"
         aria-pressed={buttonPressed}
         tabIndex={0}
       >
-        Iniciar Assistente de Compras
+        <FontAwesomeIcon icon={faMicrophone} />
       </button>
-      {loading && <ClipLoader color="#000000" />}
-      <div aria-live="assertive" className="visually-hidden">
-        {loading && <p>Reconhecimento de fala está em progresso...</p>}
-      </div>
     </div>
   );
 }

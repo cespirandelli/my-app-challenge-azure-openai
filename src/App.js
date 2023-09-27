@@ -1,38 +1,64 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { ClipLoader } from "react-spinners";
-import SpeechRecognizer from "./components/SpeechRecognizer";
-import SpeechSynthesizer from "./components/SpeechSynthesizer";
-import ChatDisplay from "./components/ChatDisplay";
-import ErrorDisplay from "./components/ErrorDisplay";
-import Title from "./components/Title";
-import ToggleContrast from "./components/ToggleContrast";
+import SpeechRecognizer from "./components/SpeechRecognizer/SpeechRecognizer";
+import SpeechSynthesizer from "./components/SpeechSynthesizer/SpeechSynthesizer";
+import ChatDisplay from "./components/ChatDisplay/ChatDisplay";
+import ErrorDisplay from "./components/ErrorDisplay/ErrorDisplay";
+import Title from "./components/Title/Title";
+import ToggleContrast from "./components/ToggleContrast/ToggleContrast";
+import Cart from "./components/Cart/Cart";
+import ProductList from "./components/ProductList/ProductList";
 import { useError } from "./context/ErrorContext";
-import { getApiResponse } from "./services/apiService";
+import { processApiResponse } from "./services/apiService";
+import ChatSubtitle from "./components/ChatSubtitle";
+import "./App.css";
 
 function App() {
   const { setError } = useError();
-  const [response, setResponse] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [response, setResponse] = useState(null); // Modificado para null
+  const [messages, setMessages] = useState([
+    {
+      text: "default",
+      timestamp: new Date().toLocaleTimeString(),
+      type: "ia",
+    },
+    {
+      text: "default",
+      timestamp: new Date().toLocaleTimeString(),
+      type: "user",
+    },
+  ]);
   const [recognizedText, setRecognizedText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+
+  const handleAddToCart = useCallback((product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  }, []);
 
   const handleApiResponse = useCallback(
-    (response) => {
-      if (response && response.text) {
-        setResponse(response);
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            text: `${response.text}`,
-            timestamp: new Date().toLocaleTimeString(),
-            type: "ia",
-          },
-        ]);
+    (apiResponse) => {
+      setLoading(false);
+      if (apiResponse) {
+        if (apiResponse.text || apiResponse.products) {
+          setResponse(apiResponse); // Modificado para armazenar a resposta da API
+        }
+        if (apiResponse.text) {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              text: apiResponse.text,
+              timestamp: new Date().toLocaleTimeString(),
+              type: "ia",
+            },
+          ]);
+        }
+        if (apiResponse.products) {
+          console.log("Produtos recebidos:", apiResponse.products);
+          setProducts(apiResponse.products);
+        }
       } else {
-        console.error(
-          "Invalid response or response.text is missing:",
-          response
-        );
+        console.error("Invalid response object received:", apiResponse);
         setError("Received invalid response from the server.");
       }
     },
@@ -40,16 +66,10 @@ function App() {
   );
 
   useEffect(() => {
-    if (recognizedText.trim() === "") return;
-    setLoading(true);
-
-    getApiResponse(recognizedText)
-      .then(handleApiResponse)
-      .catch((error) => {
-        console.error(error);
-        setError(error.message || "An unexpected error occurred");
-      })
-      .finally(() => setLoading(false));
+    if (recognizedText.trim()) {
+      setLoading(true);
+      processApiResponse(recognizedText, handleApiResponse, setError);
+    }
   }, [recognizedText, handleApiResponse, setError]);
 
   const handleRecognition = (userMessage) => {
@@ -57,29 +77,30 @@ function App() {
     setRecognizedText(userMessage);
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: `${userMessage}`, timestamp, type: "user" },
+      { text: userMessage, timestamp, type: "user" },
     ]);
   };
 
+  const chatSubtitle =
+    'Clique no botão ou selecione com TAB em seguida ENTER para inicializar seu assistente pessoal de compras. Toda interação pode ser feita com voz. Para começar pergunte por exemplo "qual é o preço da carne?"';
+
   return (
-    <div className="App" role="main" aria-live="polite">
-      <ErrorDisplay />
+    <div className="app-container">
       <Title />
-      <ToggleContrast />
+      <ChatSubtitle text={chatSubtitle} />
+
+      {/* <ErrorDisplay /> */}
+      {/* <ToggleContrast /> */}
+      <ChatDisplay messages={messages} />
       <SpeechRecognizer onRecognition={handleRecognition} />
-      <ChatDisplay
-        messages={messages}
-        className="ChatDisplay"
-        aria-label="Exibição de Chat"
-      />
-      {loading ? (
-        <ClipLoader color="#000000" aria-label="Carregando" />
-      ) : (
-        <SpeechSynthesizer
-          response={response}
-          aria-label="Sintetizador de Fala"
-        />
-      )}
+
+      {/* 
+      <div>
+        {products.length > 0 && (
+          <ProductList products={products} onAddToCart={handleAddToCart} />
+        )}
+        <Cart cart={cart} />
+      </div> */}
     </div>
   );
 }

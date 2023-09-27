@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "@azure/openai": "^1.0.0-beta.6",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.0",
+    "font-awesome": "^4.7.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.32.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

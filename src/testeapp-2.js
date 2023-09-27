@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners";
 import SpeechRecognizer from "./components/SpeechRecognizer";
 import SpeechSynthesizer from "./components/SpeechSynthesizer";
 import ChatDisplay from "./components/ChatDisplay";
-import ErrorDisplay from "./components/ErrorDisplay";
+import ErrorDisplay from "./components/ErrorDisplay/ErrorDisplay";
 import { useError } from "./context/ErrorContext";
 
 function App() {

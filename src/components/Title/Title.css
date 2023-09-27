@@ -1,0 +1,14 @@
+/* Title.css */
+.titleContainer {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.appTitle {
+  font-size: 2rem;
+  color: #333;
+}
+
+.high-contrast .titleContainer .appTitle {
+  color: #ffffff;
+}
