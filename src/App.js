@@ -44,9 +44,15 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [itemCount, setItemCount] = useState(0);
+  const [lastAddedItem, setLastAddedItem] = useState(null);
 
   const handleAddToCart = useCallback((product) => {
     setCart((prevCart) => [...prevCart, product]);
+
+    // Atualize o estado do contador e da mensagem
+    setItemCount((prevCount) => prevCount + 1);
+    setLastAddedItem(product);
   }, []);
 
   const handleApiResponse = useCallback(
@@ -155,9 +161,9 @@ function App() {
         messages={messages}
         onClick={(message) => console.log("cliquei na message:", { message })}
       />
-      {/* <ProductList products={[]} onAddToCart={handleAddToCart} /> */}
+      <ProductList products={products} onAddToCart={handleAddToCart} />
 
-      {/* <Cart cart={cart} /> */}
+      <Cart cart={cart} itemCount={itemCount} lastAddedItem={lastAddedItem} />
 
       <SpeechRecognizer onRecognition={handleRecognition} />
     </div>

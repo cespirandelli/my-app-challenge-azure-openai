@@ -12,9 +12,9 @@ const ProductList = ({ products, onAddToCart }) => {
     <div className="product-list-container">
       {products.map((product) => (
         <ProductCard
-          key={product.Codigo}
+          key={product.productId}
           product={product}
-          onAddToCart={onAddToCart}
+          onAddToCart={() => onAddToCart(product)}
         />
       ))}
     </div>
@@ -24,15 +24,13 @@ const ProductList = ({ products, onAddToCart }) => {
 ProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
-      "@search.score": PropTypes.number.isRequired,
-      Codigo: PropTypes.string.isRequired,
-      Product: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired,
-      Store: PropTypes.string.isRequired,
-      Price: PropTypes.string.isRequired,
-      Link: PropTypes.number.isRequired,
-      Address: PropTypes.string.isRequired,
-      Distance: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+      product: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      store: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      link: PropTypes.string.isRequired,
+      distance: PropTypes.string.isRequired,
     })
   ).isRequired,
   onAddToCart: PropTypes.func.isRequired,

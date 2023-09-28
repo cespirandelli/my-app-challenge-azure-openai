@@ -47,7 +47,7 @@ const transformResponseData = (data) =>
     product: item.Product,
     description: item.Description,
     store: item.Store,
-    price: parseFloat(item.Price),
+    price: parseFloat(item.Price.replace(".", ",")), // Não está formatando para o formato brasileiro
     link: item.Link,
     address: item.Address,
     distance: item.Distance,
