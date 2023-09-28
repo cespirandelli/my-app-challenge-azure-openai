@@ -29,6 +29,7 @@ ProductCard.propTypes = {
     price: PropTypes.number.isRequired,
     link: PropTypes.string.isRequired,
     distance: PropTypes.string.isRequired,
+    productId: PropTypes.string.isRequired,
   }).isRequired,
   onAddToCart: PropTypes.func.isRequired,
 };

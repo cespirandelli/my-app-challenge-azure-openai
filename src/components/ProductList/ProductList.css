@@ -1,5 +1,5 @@
 .product-list-container {
-    overflow-y: auto;
-    max-height: 500px;
-  }
-  
+  overflow-y: auto;
+  height: 100px;
+  background-color: red;
+}

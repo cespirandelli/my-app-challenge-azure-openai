@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const ProductList = ({ products, onAddToCart }) => {
   if (!products || products.length === 0) {
-    return <p>No products available.</p>;
+    return null;
   }
 
   return (

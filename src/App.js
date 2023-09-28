@@ -16,16 +16,29 @@ function App() {
   const { setError } = useError();
   const [response, setResponse] = useState(null); // Modificado para null
   const [messages, setMessages] = useState([
-    {
-      text: "default",
-      timestamp: new Date().toLocaleTimeString(),
-      type: "ia",
-    },
-    {
-      text: "default",
-      timestamp: new Date().toLocaleTimeString(),
-      type: "user",
-    },
+    // {
+    //   text: "default",
+    //   timestamp: new Date().toLocaleTimeString(),
+    //   type: "ia",
+    // },
+    // {
+    //   text: "default",
+    //   timestamp: new Date().toLocaleTimeString(),
+    //   type: "user",
+    // },
+    // {
+    //   product: {
+    //     codigo: "1",
+    //     product: "default",
+    //     description: "default",
+    //     store: "default",
+    //     price: "default",
+    //     link: "default",
+    //     distance: "default",
+    //   },
+    //   timestamp: new Date().toLocaleTimeString(),
+    //   type: "product",
+    // },
   ]);
   const [recognizedText, setRecognizedText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,32 +51,53 @@ function App() {
 
   const handleApiResponse = useCallback(
     (apiResponse) => {
+      console.log({ apiResponse });
       setLoading(false);
-      if (apiResponse) {
-        if (apiResponse.text || apiResponse.products) {
-          setResponse(apiResponse); // Modificado para armazenar a resposta da API
-        }
-        if (apiResponse.text) {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              text: apiResponse.text,
-              timestamp: new Date().toLocaleTimeString(),
-              type: "ia",
-            },
-          ]);
-        }
-        if (apiResponse.products) {
-          console.log("Produtos recebidos:", apiResponse.products);
-          setProducts(apiResponse.products);
-        }
-      } else {
+      if (
+        !apiResponse ||
+        (Array.isArray(apiResponse) && apiResponse.length === 0)
+      ) {
         console.error("Invalid response object received:", apiResponse);
         setError("Received invalid response from the server.");
+        return;
       }
+
+      if (apiResponse.text) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: apiResponse.text,
+            timestamp: new Date().toLocaleTimeString(),
+            type: "ia",
+          },
+        ]);
+        return;
+      }
+
+      console.log("Produtos recebidos:", apiResponse);
+      setProducts(
+        apiResponse.map((product, id) => ({ ...product, productId: id }))
+      );
     },
     [setError]
   );
+
+  useEffect(() => {
+    if (!products || products.length === 0) return;
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        text: "Encontrei essa lista de produtos para você:",
+        timestamp: new Date().toLocaleTimeString(),
+        type: "ia",
+      },
+      ...products.map((product) => ({
+        product,
+        timestamp: new Date().toLocaleTimeString(),
+        type: "product",
+      })),
+    ]);
+  }, [products]);
 
   useEffect(() => {
     if (recognizedText.trim()) {
@@ -91,16 +125,15 @@ function App() {
 
       {/* <ErrorDisplay /> */}
       {/* <ToggleContrast /> */}
-      <ChatDisplay messages={messages} />
-      <SpeechRecognizer onRecognition={handleRecognition} />
+      <ChatDisplay
+        messages={messages}
+        onClick={(message) => console.log("cliquei na message:", { message })}
+      />
+      {/* <ProductList products={[]} onAddToCart={handleAddToCart} /> */}
 
-      {/* 
-      <div>
-        {products.length > 0 && (
-          <ProductList products={products} onAddToCart={handleAddToCart} />
-        )}
-        <Cart cart={cart} />
-      </div> */}
+      {/* <Cart cart={cart} /> */}
+
+      <SpeechRecognizer onRecognition={handleRecognition} />
     </div>
   );
 }

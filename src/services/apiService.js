@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_ENDPOINT = "http://localhost:5000";
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 const UNEXPECTED_ERROR_MESSAGE = "An unexpected error occurred";
 const UNEXPECTED_RESPONSE_FORMAT_MESSAGE = "Unexpected response format";
 const INVALID_VOICE_MESSAGE =
@@ -16,10 +16,10 @@ const processApiResponse = async (text, handleApiResponse, setError) => {
   }
 
   try {
-    const response = await axios.post(`${API_ENDPOINT}/api/get-response`, {
+    const response = await axios.post(`${API_ENDPOINT}/api/receber-json`, {
       text,
     });
-
+    console.log({ response });
     if (Array.isArray(response.data)) {
       handleApiResponse(transformResponseData(response.data));
     } else {
