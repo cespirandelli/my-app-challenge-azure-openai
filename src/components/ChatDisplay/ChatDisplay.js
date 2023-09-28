@@ -42,10 +42,11 @@ function ChatDisplay({ messages, onClick }) {
       className="chatDisplayContainer"
       role="region"
       aria-live="polite"
+      aria-atomic="true"
       aria-label="Mensagens do chat"
     >
       {messages.map((message, idx) => {
-        console.log({ idx, message });
+        // console.log({ idx, message });
         if (message.text) return renderTextMessage(message, idx);
         if (message.product) return renderProductMessage(message, idx, onClick);
         return null;

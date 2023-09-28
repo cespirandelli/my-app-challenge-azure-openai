@@ -66,7 +66,8 @@ function SpeechRecognizer({ onRecognition }) {
         onClick={startRecognition}
         className="speechRecognizerButton"
         aria-pressed={buttonPressed}
-        tabIndex={0}
+        tabIndex="0"
+        aria-label="Botão de Reconhecimento de Voz"
       >
         <FontAwesomeIcon icon={faMicrophone} />
       </button>

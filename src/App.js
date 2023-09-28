@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import SpeechRecognizer from "./components/SpeechRecognizer/SpeechRecognizer";
 import SpeechSynthesizer from "./components/SpeechSynthesizer/SpeechSynthesizer";
 import ChatDisplay from "./components/ChatDisplay/ChatDisplay";
-import ErrorDisplay from "./components/ErrorDisplay/ErrorDisplay";
 import Title from "./components/Title/Title";
 import ToggleContrast from "./components/ToggleContrast/ToggleContrast";
 import Cart from "./components/Cart/Cart";
@@ -16,38 +15,14 @@ import "./App.css";
 function App() {
   const { setError } = useError();
   const [response, setResponse] = useState(null); // Modificado para null
-  const [messages, setMessages] = useState([
-    // {
-    //   text: "default",
-    //   timestamp: new Date().toLocaleTimeString(),
-    //   type: "ia",
-    // },
-    // {
-    //   text: "default",
-    //   timestamp: new Date().toLocaleTimeString(),
-    //   type: "user",
-    // },
-    // {
-    //   product: {
-    //     codigo: "1",
-    //     product: "default",
-    //     description: "default",
-    //     store: "default",
-    //     price: "default",
-    //     link: "default",
-    //     distance: "default",
-    //   },
-    //   timestamp: new Date().toLocaleTimeString(),
-    //   type: "product",
-    // },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [recognizedText, setRecognizedText] = useState("");
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [lastAddedItem, setLastAddedItem] = useState(null);
-  const [purchaseCompleted, setPurchaseCompleted] = React.useState(false);
+  const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [isRestart, setIsRestart] = useState(false);
 
   const restartApp = () => {
@@ -173,45 +148,57 @@ function App() {
   };
 
   const handleFinishSpeaking = () => {
-    // Aqui você pode adicionar a lógica que deseja executar quando SpeechSynthesizer terminar de falar.
     console.log("Terminou de falar");
   };
 
   const chatSubtitle =
-    'Clique no botão ou selecione com TAB em seguida ENTER para inicializar seu assistente pessoal de compras. Toda interação pode ser feita com voz. Para começar pergunte por exemplo "qual é o preço da carne?"';
-
+    "Para selecionar o assistente de voz para compras, aperte TAB e em seguida Enter para confirmar e começar a falar. Para começar pergunte por exemplo 'qual é o preço da carne?'. Evite buscar palavras individuais, a pesquisa pode ser feita a pesquisa de um item por vez. Exemplos de itens: [arroz, carne, farinha de trigo]";
   return (
-    <div className="app-container">
+    <div className="app-container" role="main">
+      <h1 className="visually-hidden">Aplicativo de Compras</h1>
+
       <Title />
       <ToggleContrast />
       <SpeechSynthesizer
         response={response}
         onError={setError}
         onFinishSpeaking={handleFinishSpeaking}
+        aria-live="assertive"
       />
 
-      {!purchaseCompleted && <ChatSubtitle text={chatSubtitle} />}
+      {!purchaseCompleted && (
+        <ChatSubtitle text={chatSubtitle} aria-live="polite" />
+      )}
 
       {purchaseCompleted ? (
-        <PurchaseConfirmation onRestart={restartApp} />
+        <PurchaseConfirmation onRestart={restartApp} tabIndex="0" />
       ) : (
         <>
-          {/* <ErrorDisplay /> */}
-
           <ChatDisplay
             messages={messages}
             onClick={(message) =>
               console.log("cliquei na message:", { message })
             }
+            tabIndex="0"
           />
-          <ProductList products={products} onAddToCart={handleAddToCart} />
+          <ProductList
+            products={products}
+            onAddToCart={handleAddToCart}
+            tabIndex="0"
+            aria-label="Listagem de Produtos"
+          />
           <Cart
             cart={cart}
             itemCount={itemCount}
             lastAddedItem={lastAddedItem}
             onFinalizePurchase={() => setPurchaseCompleted(true)}
+            tabIndex="0"
           />
-          <SpeechRecognizer onRecognition={handleRecognition} />
+          <SpeechRecognizer
+            onRecognition={handleRecognition}
+            tabIndex="0"
+            aria-label="Iniciar reconhecimento de voz"
+          />
         </>
       )}
     </div>

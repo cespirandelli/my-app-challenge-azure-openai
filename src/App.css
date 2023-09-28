@@ -17,6 +17,15 @@
   font-family: "Roboto", sans-serif;
 }
 
+.visually-hidden {
+  position: absolute;
+  left: -10000px; /* Move element out of screen */
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .high-contrast .chatDisplayContainer {
   background-color: #000000;
   color: #000000;
