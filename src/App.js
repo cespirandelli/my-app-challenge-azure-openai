@@ -71,6 +71,7 @@ function App() {
             type: "ia",
           },
         ]);
+        setResponse(apiResponse);
         return;
       }
 
@@ -100,6 +101,30 @@ function App() {
   }, [products]);
 
   useEffect(() => {
+    if (products && products.length > 0) {
+      let resposta = "Encontrei esses produtos para você: ";
+
+      products.forEach((product, index) => {
+        const nome = product.product ?? "Nome indisponível";
+        const descricao = product.description ?? "Descrição indisponível";
+
+        let preco = product.price ?? "Valor indisponível";
+        // Se o preço é um número, converta para string e substitua o ponto por vírgula.
+        if (typeof preco === "number") {
+          preco = preco.toString().replace(".", ",");
+        }
+
+        resposta += `Item ${
+          index + 1
+        }: ${nome}, ${descricao}, por ${preco} reais. `;
+      });
+
+      console.log("Resposta construída:", resposta);
+      setResponse({ text: resposta });
+    }
+  }, [products]);
+
+  useEffect(() => {
     if (recognizedText.trim()) {
       setLoading(true);
       processApiResponse(recognizedText, handleApiResponse, setError);
@@ -121,6 +146,7 @@ function App() {
   return (
     <div className="app-container">
       <Title />
+      <SpeechSynthesizer response={response} onError={setError} />
       <ChatSubtitle text={chatSubtitle} />
 
       {/* <ErrorDisplay /> */}

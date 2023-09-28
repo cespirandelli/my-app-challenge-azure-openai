@@ -3,6 +3,10 @@ import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import PropTypes from "prop-types";
 import "./SpeechSynthesizer.css";
 
+const speechKey = process.env.REACT_APP_SPEECH_KEY;
+const speechRegion = process.env.REACT_APP_SPEECH_REGION;
+const speechLanguage = "pt-BR-AntonioNeural";
+
 function SpeechSynthesizer({ response, onError, LoadingComponent }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -38,6 +42,7 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
       }
 
       setLoading(true);
+      console.log("Text to Speak:", textToSpeak); // Adicione esta linha
 
       synthesizer.speakTextAsync(
         textToSpeak,
@@ -67,11 +72,13 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
 
   useEffect(() => {
     if (response) {
+      console.log("Response que SpeechSynthesizer está lendo:", response); // Adicione esta linha
+
       const speechConfig = sdk.SpeechConfig.fromSubscription(
-        "fa58155756e94a60bdc515e3669b4416",
-        "eastus"
+        speechKey,
+        speechRegion
       );
-      speechConfig.speechSynthesisVoiceName = "pt-BR-AntonioNeural";
+      speechConfig.speechSynthesisVoiceName = speechLanguage;
       const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
       const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
       speakText(response, synthesizer);
@@ -85,7 +92,7 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
       role="status"
       aria-relevant="additions text"
     >
-      {loading && <LoadingComponent />}
+      {/* {loading && <LoadingComponent />} */}
       <div className="visually-hidden" aria-live="assertive">
         {error && <p>{error}</p>}
       </div>
