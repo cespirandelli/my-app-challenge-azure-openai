@@ -1,6 +1,6 @@
 import React from "react";
 import "./ProductCard.css";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 function ProductCard({ product, onAddToCart }) {
   return (
@@ -20,18 +20,18 @@ function ProductCard({ product, onAddToCart }) {
   );
 }
 
-ProductCard.propTypes = {
-  product: PropTypes.shape({
-    codigo: PropTypes.string.isRequired,
-    product: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    store: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    link: PropTypes.string.isRequired,
-    distance: PropTypes.string.isRequired,
-    productId: PropTypes.string.isRequired,
-  }).isRequired,
-  onAddToCart: PropTypes.func.isRequired,
-};
+// ProductCard.propTypes = {
+//   product: PropTypes.shape({
+//     Codigo: PropTypes.string.isRequired,
+//     Product: PropTypes.string.isRequired,
+//     Description: PropTypes.string.isRequired,
+//     Store: PropTypes.string.isRequired,
+//     Price: PropTypes.number.isRequired,
+//     Link: PropTypes.string.isRequired,
+//     Distance: PropTypes.string.isRequired,
+//     productId: PropTypes.string.isRequired,
+//   }).isRequired,
+//   onAddToCart: PropTypes.func.isRequired,
+// };
 
 export default ProductCard;

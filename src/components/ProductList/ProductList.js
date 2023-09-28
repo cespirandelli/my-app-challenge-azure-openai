@@ -24,10 +24,17 @@ const ProductList = ({ products, onAddToCart }) => {
 ProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
+      "@search.score": PropTypes.number.isRequired,
       Codigo: PropTypes.string.isRequired,
-      // Adicione verificações para outras propriedades do produto conforme necessário
+      Product: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired,
+      Store: PropTypes.string.isRequired,
+      Price: PropTypes.string.isRequired,
+      Link: PropTypes.number.isRequired,
+      Address: PropTypes.string.isRequired,
+      Distance: PropTypes.string.isRequired,
     })
-  ),
+  ).isRequired,
   onAddToCart: PropTypes.func.isRequired,
 };
 

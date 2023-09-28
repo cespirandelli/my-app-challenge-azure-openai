@@ -58,7 +58,7 @@ function ChatDisplay({ messages, onClick }) {
 ChatDisplay.propTypes = {
   messages: PropTypes.arrayOf(
     PropTypes.shape({
-      text: PropTypes.string.isRequired,
+      text: PropTypes.string,
       type: PropTypes.string.isRequired,
       timestamp: PropTypes.string.isRequired,
     })

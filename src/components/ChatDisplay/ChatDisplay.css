@@ -10,6 +10,10 @@
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  background-image: url("/Users/cesar/Documents/FiapChallenge2/teste-conexao-openai-azure/my-app/image.png"); /* Altere para o caminho correto da sua imagem */
+  background-size: cover; /* Isto faz com que sua imagem cubra toda a área do container */
+  background-repeat: no-repeat; /* Isto previne a repetição da imagem */
+  background-position: center;
 }
 
 .chatMessage {
@@ -31,19 +35,24 @@
   align-self: flex-end;
   align-items: flex-end;
   text-align: right;
-  background-color: black;
-  color: rgb(255, 255, 255);
+  background-color: #246c9c;
+  color: rgb(236, 236, 236);
 }
 
 .iaMessage {
   align-self: flex-start;
   align-items: flex-start;
   text-align: left;
-  background-color: #009688;
-  color: white;
+  background-color: #7dc9f8;
+  color: black;
 }
 
 .timestamp {
   font-size: 0.8rem;
   color: #ffffff;
+}
+
+.iaMessage .timestamp {
+  font-size: 0.8rem;
+  color: black;
 }

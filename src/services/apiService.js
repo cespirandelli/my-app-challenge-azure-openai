@@ -16,9 +16,13 @@ const processApiResponse = async (text, handleApiResponse, setError) => {
   }
 
   try {
-    const response = await axios.post(`${API_ENDPOINT}/api/receber-json`, {
-      text,
-    });
+    const response = await axios.post(
+      `${API_ENDPOINT}/api/receber-json`,
+      {
+        text,
+      },
+      { withCredentials: true }
+    );
     console.log({ response });
     if (Array.isArray(response.data)) {
       handleApiResponse(transformResponseData(response.data));
