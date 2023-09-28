@@ -3,6 +3,7 @@
   width: 100vw;
   padding: 0 2rem;
   overflow: hidden;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
@@ -18,20 +19,25 @@
 
 .high-contrast .chatDisplayContainer {
   background-color: #000000;
-  color: #ffffff;
+  color: #000000;
   border-color: #ffffff;
 }
 
 .high-contrast .userMessage {
-  background-color: #000000; /* Preto */
-  color: #ffff00; /* Amarelo */
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .high-contrast .iaMessage {
-  background-color: #000000; /* Preto */
-  color: #00ff00; /* Verde */
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .high-contrast .timestamp {
   color: #ff0000; /* Vermelho */
+}
+
+.high-contrast .app-container {
+  background-color: #000000; /* Preto */
+  color: #ffffff; /* Branco */
 }

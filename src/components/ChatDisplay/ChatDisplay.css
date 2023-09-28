@@ -10,7 +10,7 @@
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  background-image: url("/Users/cesar/Documents/FiapChallenge2/teste-conexao-openai-azure/my-app/image.png"); /* Altere para o caminho correto da sua imagem */
+  background-image: url("../../../public/chatImage.png");
   background-size: cover; /* Isto faz com que sua imagem cubra toda a área do container */
   background-repeat: no-repeat; /* Isto previne a repetição da imagem */
   background-position: center;

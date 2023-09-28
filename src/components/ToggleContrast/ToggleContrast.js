@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./ToggleContrast.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdjust } from "@fortawesome/free-solid-svg-icons";
 
 function ToggleContrast() {
   const [isHighContrast, setIsHighContrast] = useState(false);
@@ -10,8 +12,13 @@ function ToggleContrast() {
 
   return (
     <div className="toggle-container">
-      <button onClick={() => setIsHighContrast(!isHighContrast)}>
-        Toggle High Contrast
+      <button
+        onClick={() => setIsHighContrast(!isHighContrast)}
+        title="Toggle High Contrast"
+      >
+        <div className="contrastButton">
+          <FontAwesomeIcon icon={faAdjust} />
+        </div>
       </button>
     </div>
   );

@@ -19,3 +19,11 @@
 .product-card a:hover {
   text-decoration: underline;
 }
+
+.high-contrast .product-card {
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #000000;
+  color: #ffffff;
+}

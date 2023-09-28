@@ -28,16 +28,16 @@
 }
 
 .speechRecognizerButton:hover {
-  background-color: #00796b; /* Adjust hover color according to your design preference */
+  background-color: #0d3560;
 }
 
 .speechRecognizerButton:active {
-  background-color: #004d40; /* Adjust active color according to your design preference */
+  background-color: #7dc9f8;
 }
 
 .speechRecognizerButton:focus {
-  outline: 2px solid #00574b; /* Adjust color according to your design preference */
-  box-shadow: 0 0 10px #00574b; /* Adjust color according to your design preference */
+  outline: 2px solid #246c9c;
+  box-shadow: 0 0 10px #246c9c;
 }
 
 .visually-hidden {

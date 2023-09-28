@@ -7,13 +7,19 @@ const speechKey = process.env.REACT_APP_SPEECH_KEY;
 const speechRegion = process.env.REACT_APP_SPEECH_REGION;
 const speechLanguage = "pt-BR-AntonioNeural";
 
-function SpeechSynthesizer({ response, onError, LoadingComponent }) {
+function SpeechSynthesizer({
+  response,
+  onError,
+  onFinishSpeaking,
+  LoadingComponent,
+}) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const speakText = useCallback(
     (response, synthesizer) => {
       let textToSpeak = "";
+
       if (!response) {
         console.error("Invalid response object:", response.data);
         setError("Received invalid response object.");
@@ -21,7 +27,13 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
         return;
       }
 
-      if (Array.isArray(response.products) && response.products.length > 0) {
+      // Aqui verificamos se a resposta tem um campo 'specialText'
+      if (response.specialText) {
+        textToSpeak = response.specialText;
+      } else if (
+        Array.isArray(response.products) &&
+        response.products.length > 0
+      ) {
         const productDetails = response.products
           .map(
             (product) =>
@@ -42,7 +54,7 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
       }
 
       setLoading(true);
-      console.log("Text to Speak:", textToSpeak); // Adicione esta linha
+      console.log("Text to Speak:", textToSpeak);
 
       synthesizer.speakTextAsync(
         textToSpeak,
@@ -54,8 +66,7 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
             setError(errorDetails);
             if (onError) onError(errorDetails);
           }
-          synthesizer.close();
-          setLoading(false);
+          if (onFinishSpeaking) onFinishSpeaking();
         },
         (error) => {
           const errorMsg = "Erro ocorrido: " + error;
@@ -67,12 +78,12 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
         }
       );
     },
-    [onError]
+    [onError, onFinishSpeaking]
   );
 
   useEffect(() => {
     if (response) {
-      console.log("Response que SpeechSynthesizer está lendo:", response); // Adicione esta linha
+      console.log("Response que SpeechSynthesizer está lendo:", response);
 
       const speechConfig = sdk.SpeechConfig.fromSubscription(
         speechKey,
@@ -92,7 +103,8 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
       role="status"
       aria-relevant="additions text"
     >
-      {/* {loading && <LoadingComponent />} */}
+      {/* Exibir um componente de carregamento enquanto está falando, se fornecido */}
+      {loading && LoadingComponent && <LoadingComponent />}
       <div className="visually-hidden" aria-live="assertive">
         {error && <p>{error}</p>}
       </div>
@@ -103,6 +115,7 @@ function SpeechSynthesizer({ response, onError, LoadingComponent }) {
 SpeechSynthesizer.propTypes = {
   response: PropTypes.object,
   onError: PropTypes.func,
+  onFinishSpeaking: PropTypes.func,
   LoadingComponent: PropTypes.element,
 };
 

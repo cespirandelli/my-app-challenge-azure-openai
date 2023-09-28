@@ -1,6 +1,6 @@
 import React from "react";
 
-const Cart = ({ cart, itemCount, lastAddedItem }) => {
+const Cart = ({ cart, itemCount, lastAddedItem, onFinalizePurchase }) => {
   // Função para calcular o total dos preços dos produtos no carrinho
   const calculateTotal = () => {
     return cart.reduce(
@@ -23,9 +23,9 @@ const Cart = ({ cart, itemCount, lastAddedItem }) => {
           {lastAddedItem && (
             <p>{`"${lastAddedItem.product}" adicionado ao carrinho`}</p>
           )}
-          <p>{`${itemCount} ${
-            itemCount === 1 ? "item" : "itens"
-          } no carrinho`}</p>
+          <p>
+            {`${itemCount} ${itemCount === 1 ? "item" : "itens"} no carrinho`}
+          </p>
           <ul>
             {cart.map((product, index) => (
               <li key={index}>
@@ -33,12 +33,12 @@ const Cart = ({ cart, itemCount, lastAddedItem }) => {
               </li>
             ))}
           </ul>
-          <p>Total: {formattedTotal}</p>{" "}
+          <p>Total: {formattedTotal}</p>
         </div>
       ) : (
         <p>O carrinho está vazio</p>
       )}
-      <button>Finalizar Compra</button>
+      <button onClick={onFinalizePurchase}>Finalizar Compra</button>
     </div>
   );
 };

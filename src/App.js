@@ -7,6 +7,7 @@ import Title from "./components/Title/Title";
 import ToggleContrast from "./components/ToggleContrast/ToggleContrast";
 import Cart from "./components/Cart/Cart";
 import ProductList from "./components/ProductList/ProductList";
+import PurchaseConfirmation from "./components/PurchaseConfirmation/PurchaseConfirmation";
 import { useError } from "./context/ErrorContext";
 import { processApiResponse } from "./services/apiService";
 import ChatSubtitle from "./components/ChatSubtitle";
@@ -46,13 +47,29 @@ function App() {
   const [cart, setCart] = useState([]);
   const [itemCount, setItemCount] = useState(0);
   const [lastAddedItem, setLastAddedItem] = useState(null);
+  const [purchaseCompleted, setPurchaseCompleted] = React.useState(false);
+  const [isRestart, setIsRestart] = useState(false);
 
-  const handleAddToCart = useCallback((product) => {
+  const restartApp = () => {
+    setResponse(null);
+    setMessages([]);
+    setRecognizedText("");
+    setLoading(false);
+    setProducts([]);
+    setCart([]);
+    setItemCount(0);
+    setLastAddedItem(null);
+    setPurchaseCompleted(false);
+    setIsRestart(true);
+  };
+
+  const handleAddToCart = useCallback((product, index) => {
     setCart((prevCart) => [...prevCart, product]);
-
-    // Atualize o estado do contador e da mensagem
     setItemCount((prevCount) => prevCount + 1);
     setLastAddedItem(product);
+    setResponse({
+      specialText: `Item ${product.description} adicionado ao carrinho.`,
+    });
   }, []);
 
   const handleApiResponse = useCallback(
@@ -88,6 +105,15 @@ function App() {
     },
     [setError]
   );
+
+  useEffect(() => {
+    if (isRestart) {
+      setResponse({
+        text: "Que bom tê-lo de volta! O que gostaria de buscar agora?",
+      });
+      setIsRestart(false);
+    }
+  }, [isRestart]);
 
   useEffect(() => {
     if (!products || products.length === 0) return;
@@ -146,26 +172,48 @@ function App() {
     ]);
   };
 
+  const handleFinishSpeaking = () => {
+    // Aqui você pode adicionar a lógica que deseja executar quando SpeechSynthesizer terminar de falar.
+    console.log("Terminou de falar");
+  };
+
   const chatSubtitle =
     'Clique no botão ou selecione com TAB em seguida ENTER para inicializar seu assistente pessoal de compras. Toda interação pode ser feita com voz. Para começar pergunte por exemplo "qual é o preço da carne?"';
 
   return (
     <div className="app-container">
       <Title />
-      <SpeechSynthesizer response={response} onError={setError} />
-      <ChatSubtitle text={chatSubtitle} />
-
-      {/* <ErrorDisplay /> */}
-      {/* <ToggleContrast /> */}
-      <ChatDisplay
-        messages={messages}
-        onClick={(message) => console.log("cliquei na message:", { message })}
+      <ToggleContrast />
+      <SpeechSynthesizer
+        response={response}
+        onError={setError}
+        onFinishSpeaking={handleFinishSpeaking}
       />
-      <ProductList products={products} onAddToCart={handleAddToCart} />
 
-      <Cart cart={cart} itemCount={itemCount} lastAddedItem={lastAddedItem} />
+      {!purchaseCompleted && <ChatSubtitle text={chatSubtitle} />}
 
-      <SpeechRecognizer onRecognition={handleRecognition} />
+      {purchaseCompleted ? (
+        <PurchaseConfirmation onRestart={restartApp} />
+      ) : (
+        <>
+          {/* <ErrorDisplay /> */}
+
+          <ChatDisplay
+            messages={messages}
+            onClick={(message) =>
+              console.log("cliquei na message:", { message })
+            }
+          />
+          <ProductList products={products} onAddToCart={handleAddToCart} />
+          <Cart
+            cart={cart}
+            itemCount={itemCount}
+            lastAddedItem={lastAddedItem}
+            onFinalizePurchase={() => setPurchaseCompleted(true)}
+          />
+          <SpeechRecognizer onRecognition={handleRecognition} />
+        </>
+      )}
     </div>
   );
 }

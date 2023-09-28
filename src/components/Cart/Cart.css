@@ -1,0 +1,10 @@
+.cart {
+  background-color: #ffffff; /* ou qualquer outra cor que preferir */
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  overflow: auto;
+}

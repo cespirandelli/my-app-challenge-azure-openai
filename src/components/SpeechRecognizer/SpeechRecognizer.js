@@ -12,7 +12,7 @@ function SpeechRecognizer({ onRecognition }) {
 
   const startRecognition = () => {
     setLoading(true);
-    setButtonPressed(true); // setting buttonPressed to true when recognition starts
+    setButtonPressed(true);
 
     const speechConfig = sdk.SpeechConfig.fromSubscription(
       "63e2e8cdd3774328b2d020432cd2d8a8",
