@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import "./SpeechRecognizer.css";
 import PropTypes from "prop-types";
@@ -9,6 +9,13 @@ import { ClipLoader } from "react-spinners";
 function SpeechRecognizer({ onRecognition }) {
   const [loading, setLoading] = useState(false);
   const [buttonPressed, setButtonPressed] = useState(false);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (!loading && buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  }, [loading]);
 
   const startRecognition = () => {
     setLoading(true);
@@ -30,7 +37,7 @@ function SpeechRecognizer({ onRecognition }) {
       !("SpeechRecognition" in window)
     ) {
       alert(
-        "O serviço de reconhecimento de fala não está disponível neste navegador."
+        "Infelizmente, o serviço de reconhecimento de fala não está disponível neste navegador. Tente usar um navegador diferente que suporte essa funcionalidade."
       );
       return;
     }
@@ -67,7 +74,8 @@ function SpeechRecognizer({ onRecognition }) {
         className="speechRecognizerButton"
         aria-pressed={buttonPressed}
         tabIndex="0"
-        aria-label="Botão de Reconhecimento de Voz"
+        aria-label="Iniciar reconhecimento de voz"
+        ref={buttonRef}
       >
         <FontAwesomeIcon icon={faMicrophone} />
       </button>

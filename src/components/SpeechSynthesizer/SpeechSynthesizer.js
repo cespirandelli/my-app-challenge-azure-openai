@@ -103,11 +103,16 @@ function SpeechSynthesizer({
       role="status"
       aria-relevant="additions text"
     >
-      {/* Exibir um componente de carregamento enquanto está falando, se fornecido */}
-      {loading && LoadingComponent && <LoadingComponent />}
-      <div className="visually-hidden" aria-live="assertive">
-        {error && <p>{error}</p>}
-      </div>
+      {loading && (
+        <>
+          {LoadingComponent && <LoadingComponent />}
+          <span className="visually-hidden">
+            A síntese de voz está em progresso...
+          </span>
+        </>
+      )}
+
+      <div className="visually-hidden">{error && <p>{error}</p>}</div>
     </div>
   );
 }

@@ -1,15 +1,22 @@
-// ProductList.js
 import React from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import PropTypes from "prop-types";
 
 const ProductList = ({ products, onAddToCart }) => {
   if (!products || products.length === 0) {
-    return null;
+    return (
+      <div role="alert" aria-live="assertive">
+        <p>Nenhum produto disponível no momento.</p>
+      </div>
+    );
   }
 
   return (
-    <div className="product-list-container">
+    <div
+      className="product-list-container"
+      role="list"
+      aria-label="Lista de Produtos Disponíveis"
+    >
       {products.map((product) => (
         <ProductCard
           key={product.productId}

@@ -14,7 +14,9 @@ function ToggleContrast() {
     <div className="toggle-container">
       <button
         onClick={() => setIsHighContrast(!isHighContrast)}
-        title="Toggle High Contrast"
+        title="Alternar Alto Contraste"
+        aria-label="Alternar Alto Contraste"
+        aria-pressed={isHighContrast}
       >
         <div className="contrastButton">
           <FontAwesomeIcon icon={faAdjust} />

@@ -12,6 +12,10 @@
   align-items: center;
 }
 
+button:focus {
+  outline: 2px solid #005fcc; /* A cor pode ser ajustada conforme o design */
+}
+
 /* Default styling */
 body {
   background-color: #ffffff;
