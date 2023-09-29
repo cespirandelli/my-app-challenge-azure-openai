@@ -17,7 +17,7 @@ const processApiResponse = async (text, handleApiResponse, setError) => {
 
   try {
     const response = await axios.post(
-      `${API_ENDPOINT}/receber`,
+      `${API_ENDPOINT}`,
       {
         text,
       },
