@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+# Shopping Assistant App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Tech Stack](#tech-stack)
+4. [Getting Started](#getting-started)
+   1. [Prerequisites](#prerequisites)
+   2. [Installation](#installation)
+5. [File Structure](#file-structure)
+6. [Usage](#usage)
+   1. [App.js](#appjs)
+   2. [apiService.js](#apiservicejs)
+   3. [SpeechSynthesizer.js](#speechsynthesizerjs)
+   4. [SpeechRecognizer.js](#speechrecognizerjs)
+   5. [PurchaseConfirmation](#purchaseconfirmation)
+   6. [ProductList](#productlist)
+   7. [ProductCard](#productcard)
+   8. [ChatDisplay](#chatdisplay)
+   9. [Cart](#cart)
+   10. [ChatSubtitle](#chatsubtitle)
+   11. [Title](#title)
+   12. [ToggleContrast](#togglecontrast)
 
-In the project directory, you can run:
+## Introduction
 
-### `npm start`
+This is a shopping assistant application that utilizes voice recognition and voice synthesis to make your shopping experience easier.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Voice recognition for taking user queries
+- Voice synthesis to read out product information
+- Search products from various stores
+- Add products to cart and make a purchase
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React.js
+- Axios
+- Microsoft Cognitive Services (Speech SDK)
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js
+- npm
+- Microsoft Cognitive Services API key
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repo: `git clone https://github.com/your-username/your-project-name.git`
+2. Navigate to the project directory: `cd your-project-name`
+3. Install dependencies: `npm install`
+4. Set up your environment variables for Microsoft Cognitive Services API key in `.env`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## File Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `App.js`: Main application file, responsible for orchestrating the other components and maintaining state.
+- `apiService.js`: Contains logic for API calls.
+- `SpeechSynthesizer.js`: Handles the voice synthesis part of the app, using Microsoft Cognitive Services.
+- `SpeechRecognizer.js`: Manages the voice recognition feature, also powered by Microsoft Cognitive Services.
+- `PurchaseConfirmation.js`: Provides a UI for confirming a successful purchase and restarting the shopping process.
+- `ProductList.js`: Displays the list of available products, leverages the `ProductCard` component for each product.
+- `ProductCard.js`: Provides a detailed view of a single product, including its properties and an "Add to Cart" button.
+- `ChatDisplay.js`: Manages the display of chat messages and products, with the ability to add products to the cart directly from the chat interface.
+- `Cart`: lorem ipsum
+- `ChatSubtitle.js`: Gives voice-assistant instructions and tips to users on how to interact with the shopping assistant.
+- `Title`: lorem ipsum
+- `ToggleContrast`: lorem ipsum
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Usage
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### App.js
 
-## Learn More
+The main application file. It imports and uses other custom React components, and handles application state.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### apiService.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Responsible for making API calls to the backend service and transforming the response.
 
-### Code Splitting
+### SpeechSynthesizer.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Handles the voice synthesis functionality, capable of converting text information to speech using Microsoft Cognitive Services.
 
-### Analyzing the Bundle Size
+### SpeechRecognizer.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The `SpeechRecognizer.js` file manages the voice recognition feature. It uses Microsoft Cognitive Services' Speech SDK to perform voice recognition in Portuguese (`pt-BR`). The component utilizes React's `useState`, `useEffect`, and `useRef` hooks for state management and side effects.
 
-### Making a Progressive Web App
+### PurchaseConfirmation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The `PurchaseConfirmation.js` file provides a UI for confirming a successful purchase and restarting the shopping process. It uses React's `useEffect` and `useRef` hooks to automatically focus on the button for restarting the shopping process.
 
-### Advanced Configuration
+### ProductList
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The `ProductList.js` file displays a list of available products using the `ProductCard` component. It checks if the `products` array is empty and displays a message if no products are available. The `ProductList` component uses PropTypes for type-checking and expects an array of products and a function `onAddToCart` as props.
 
-### Deployment
+### ProductCard
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The `ProductCard.js` component provides a detailed view of a single product, including its properties and an "Add to Cart" button. It is responsible for displaying the product name, description, store, price, distance, and a link to view the product. The component uses PropTypes for type-checking and requires a product object and a function `onAddToCart` as props.
 
-### `npm run build` fails to minify
+### ChatDisplay
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The `ChatDisplay.js` component manages the display of chat messages and products. It uses React's `useEffect` and `useRef` hooks for state management and side effects like scrolling. Messages can be of two types: text and product. For each message, it either renders it as text or as a product card, based on its type. The `ProductCard` component is leveraged to display products and offers the option to add them to the cart directly.
+
+### Cart
+
+The 'Cart.js' component serves as the management layer for the shopping cart within the application. Utilizing React's functional component model, it tracks the products added to the cart, counts items, displays the last item added, and calculates the total cart value.
+
+### ChatSubtitle
+
+The `ChatSubtitle.js` component provides guidelines and instructions to the user for interacting with the voice assistant. It lays out step-by-step tips on how to activate the voice assistant and how to formulate voice queries for shopping.
+
+### Title
+
+The Title.js component acts as the branding element in the application, presenting the logo as part of the user interface. It makes use of a CSS class to style the container and the logo itself. This component doesn't rely on any internal state or props, making it a straightforward static component.
+
+### ToggleContrast
+
+The ToggleContrast.js component introduces accessibility features to the application by allowing users to switch to a high-contrast theme. It is built using React functional components and leverages the useState and useEffect hooks to manage state and side-effects, respectively.
