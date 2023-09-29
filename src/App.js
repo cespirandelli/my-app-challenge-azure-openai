@@ -45,6 +45,7 @@ function App() {
     setResponse({
       specialText: `Item ${product.description} adicionado ao carrinho.`,
     });
+    setResponse(null)
   }, []);
 
   const handleApiResponse = useCallback(
@@ -138,6 +139,13 @@ function App() {
     }
   }, [recognizedText, handleApiResponse, setError]);
 
+  useEffect(() => {
+    if(purchaseCompleted) {
+     setResponse({text:  "Obrigado pela sua preferencia. Seu produto já está indo até você"})
+    }
+
+  }, [purchaseCompleted])
+
   const handleRecognition = (userMessage) => {
     const timestamp = new Date().toLocaleTimeString();
     setRecognizedText(userMessage);
@@ -150,6 +158,7 @@ function App() {
   const handleFinishSpeaking = () => {
     console.log("Terminou de falar");
   };
+
 
   const chatSubtitle =
     "Para selecionar o assistente de voz para compras, aperte TAB e em seguida Enter para confirmar e começar a falar. Para começar pergunte por exemplo 'qual é o preço da carne?'. Evite buscar palavras individuais, a pesquisa pode ser feita a pesquisa de um item por vez. Exemplos de itens: [arroz, carne, farinha de trigo]";
@@ -176,16 +185,10 @@ function App() {
         <>
           <ChatDisplay
             messages={messages}
-            onClick={(message) =>
-              console.log("cliquei na message:", { message })
+            onClick={(message) => 
+              handleAddToCart(message, message.productId)
             }
             tabIndex="0"
-          />
-          <ProductList
-            products={products}
-            onAddToCart={handleAddToCart}
-            tabIndex="0"
-            aria-label="Listagem de Produtos"
           />
           <Cart
             cart={cart}

@@ -15,6 +15,7 @@ function SpeechSynthesizer({
 }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  console.log(`SpeechSynthesizer`, {response})
 
   const speakText = useCallback(
     (response, synthesizer) => {

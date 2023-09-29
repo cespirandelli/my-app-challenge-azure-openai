@@ -1,4 +1,5 @@
 import React from "react";
+import "./Cart.css";
 
 const Cart = ({ cart, itemCount, lastAddedItem, onFinalizePurchase }) => {
   const calculateTotal = () => {
