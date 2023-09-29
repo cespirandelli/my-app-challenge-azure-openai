@@ -45,8 +45,12 @@ function App() {
     setResponse({
       specialText: `Item ${product.description} adicionado ao carrinho.`,
     });
-    setResponse(null)
   }, []);
+
+  useEffect(() => {
+    if(!response) return; 
+    setResponse(null)
+  }, [response])
 
   const handleApiResponse = useCallback(
     (apiResponse) => {
@@ -90,6 +94,7 @@ function App() {
       setIsRestart(false);
     }
   }, [isRestart]);
+
 
   useEffect(() => {
     if (!products || products.length === 0) return;
