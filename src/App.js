@@ -168,6 +168,8 @@ function App() {
   const chatSubtitle =
     "Para selecionar o assistente de voz para compras, aperte TAB e em seguida Enter para confirmar e começar a falar. Para começar pergunte por exemplo 'qual é o preço da carne?'. Evite buscar palavras individuais, a pesquisa pode ser feita a pesquisa de um item por vez. Exemplos de itens: [arroz, carne, farinha de trigo]";
   return (
+    <div className="app">
+
     <div className="app-container" role="main">
       <h1 className="visually-hidden">Aplicativo de Compras</h1>
 
@@ -209,6 +211,7 @@ function App() {
           />
         </>
       )}
+    </div>
     </div>
   );
 }
